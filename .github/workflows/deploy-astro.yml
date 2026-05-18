@@ -18,6 +18,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
+      - name: Set base path
+        run: |
+          if [ -f public/CNAME ]; then
+            echo "BASE_PATH=" >> $GITHUB_ENV
+          else
+            echo "BASE_PATH=/${{ github.event.repository.name }}" >> $GITHUB_ENV
+          fi
       - run: bun run build
       - uses: actions/upload-pages-artifact@v3
         with:
